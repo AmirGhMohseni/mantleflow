@@ -1,6 +1,5 @@
 import '../globals.css';
 import { Web3Provider } from '@/context/Web3Context';
-import '@rainbow-me/rainbowkit/styles.css';
 
 export const metadata = {
   title: 'MantleFlow - Tokenize Your Business Cash Flows',
@@ -14,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-gray-50">
         <Web3Provider>
           {children}
         </Web3Provider>

@@ -19,6 +19,9 @@ const config: Config = {
           800: '#075985',
           900: '#0c4a6e',
         }
+      },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
       }
     },
   },
