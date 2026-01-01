@@ -6,46 +6,84 @@
   body {
     @apply bg-gray-50 text-gray-900;
   }
-  
+
   * {
     @apply border-gray-200;
   }
-  
+
   .container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 }
 
+/* ================================ */
+/* RainbowKit + Next.js App Router */
+/* FIXES (VERY IMPORTANT)          */
+/* ================================ */
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body {
+  overscroll-behavior: none;
+}
+
+/* Root portal of RainbowKit */
+[data-rk] {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+}
+
+/* Prevent modal from inheriting bad flex/transform */
+[data-rk] *,
+[data-rk] *::before,
+[data-rk] *::after {
+  box-sizing: border-box;
+}
+
+/* ================================ */
+
 @layer components {
   .card {
     @apply bg-white rounded-xl shadow-md p-6;
   }
-  
+
   .btn {
     @apply px-4 py-2 rounded-lg font-medium transition-colors;
   }
-  
+
   .btn-primary {
     @apply bg-indigo-600 text-white hover:bg-indigo-700;
   }
-  
+
   .btn-secondary {
     @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
   }
-  
+
   .badge {
     @apply px-2 py-1 rounded-full text-xs font-semibold;
   }
-  
+
   .badge-success {
     @apply bg-green-100 text-green-800;
   }
-  
+
   .badge-warning {
     @apply bg-yellow-100 text-yellow-800;
   }
-  
+
   .badge-error {
     @apply bg-red-100 text-red-800;
   }
+}
+
+/* Center RainbowKit modal */
+[data-rk] [role='dialog'] {
+  margin: auto !important;
 }

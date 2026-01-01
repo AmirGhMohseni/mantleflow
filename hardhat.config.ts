@@ -6,38 +6,40 @@ dotenv.config();
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: "0.8.28", // تطابق با قراردادها
+    version: "0.8.20",
     settings: {
       optimizer: {
         enabled: true,
-        runs: 200
+        runs: 200,
       },
-      evmVersion: "paris" // برای سازگاری با زنجیره‌های بدون PUSH0
-    }
+      evmVersion: "paris", // Mantle سازگار
+    },
   },
   networks: {
-    mantleTestnet: {
-      url: process.env.MANTLE_RPC_URL || "https://rpc.testnet.mantle.xyz",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-      chainId: 5001
+    mantleSepolia: {
+      url: process.env.MANTLE_RPC_URL || "https://rpc.sepolia.mantle.xyz",
+      chainId: 5003,
+      accounts: process.env.PRIVATE_KEY
+        ? [process.env.PRIVATE_KEY]
+        : [],
     },
     localhost: {
       url: "http://127.0.0.1:8545",
-      chainId: 31337
+      chainId: 31337,
     },
     hardhat: {
-      chainId: 31337
-    }
+      chainId: 31337,
+    },
   },
   paths: {
     sources: "./contracts",
     tests: "./test",
     cache: "./cache",
-    artifacts: "./artifacts"
+    artifacts: "./artifacts",
   },
   mocha: {
-    timeout: 40000
-  }
+    timeout: 40000,
+  },
 };
 
 export default config;

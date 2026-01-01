@@ -4,13 +4,19 @@ async function main() {
   // Get network and accounts
   const network = await ethers.provider.getNetwork();
   const [deployer] = await ethers.getSigners();
-  
+
+  const nonce = await ethers.provider.getTransactionCount(
+    deployer.address,
+    "latest"
+  );
+  console.log("Using nonce:", nonce);
+
   console.log(`🔄 Deploying to network: ${network.name} (${network.chainId})`);
   console.log(`💳 Deployer address: ${deployer.address}`);
   
   // Check balance
   const balance = await ethers.provider.getBalance(deployer.address);
-  console.log(`💰 Deployer balance: ${ethers.formatEther(balance)} ETH`);
+  console.log(`💰 Deployer balance: ${ethers.formatEther(balance)} MNT`);
   
   if (balance < ethers.parseEther("0.01")) {
     console.log("⚠️  Warning: Low balance. You might need to fund this account first.");
@@ -46,16 +52,23 @@ async function main() {
   
   // Update or add contract addresses
   envContent = envContent
-    .replace(/MANTLEFLOW_CONTRACT_ADDRESS=.*/g, `MANTLEFLOW_CONTRACT_ADDRESS=${await mantleFlow.getAddress()}`)
-    .replace(/FLOWTOKEN_CONTRACT_ADDRESS=.*/g, `FLOWTOKEN_CONTRACT_ADDRESS=${await flowToken.getAddress()}`);
-  
-  if (!envContent.includes('MANTLEFLOW_CONTRACT_ADDRESS=')) {
-    envContent += `\nMANTLEFLOW_CONTRACT_ADDRESS=${await mantleFlow.getAddress()}`;
+    .replace(
+      /NEXT_PUBLIC_MANTLEFLOW_CONTRACT_ADDRESS=.*/g,
+      `NEXT_PUBLIC_MANTLEFLOW_CONTRACT_ADDRESS=${await mantleFlow.getAddress()}`
+    )
+    .replace(
+      /NEXT_PUBLIC_FLOWTOKEN_CONTRACT_ADDRESS=.*/g,
+      `NEXT_PUBLIC_FLOWTOKEN_CONTRACT_ADDRESS=${await flowToken.getAddress()}`
+    );
+
+  if (!envContent.includes('NEXT_PUBLIC_MANTLEFLOW_CONTRACT_ADDRESS=')) {
+    envContent += `\nNEXT_PUBLIC_MANTLEFLOW_CONTRACT_ADDRESS=${await mantleFlow.getAddress()}`;
   }
-  if (!envContent.includes('FLOWTOKEN_CONTRACT_ADDRESS=')) {
-    envContent += `\nFLOWTOKEN_CONTRACT_ADDRESS=${await flowToken.getAddress()}`;
+
+  if (!envContent.includes('NEXT_PUBLIC_FLOWTOKEN_CONTRACT_ADDRESS=')) {
+    envContent += `\nNEXT_PUBLIC_FLOWTOKEN_CONTRACT_ADDRESS=${await flowToken.getAddress()}`;
   }
-  
+
   fs.writeFileSync(envPath, envContent);
   console.log("💾 Contract addresses saved to .env file");
 }
